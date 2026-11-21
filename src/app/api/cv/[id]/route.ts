@@ -7,7 +7,7 @@ import path from "node:path";
 import { UPLOAD_DIR } from "@/server/database";
 import { getCvFile } from "@/server/queries";
 
-export async function GET(_req: Request, ctx: RouteContext<"/api/cv/[id]">) {
+export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> }) {
   const { id } = await ctx.params;
   const row = getCvFile(Number(id));
   if (!row?.file_path) return new Response("Not found", { status: 404 });
