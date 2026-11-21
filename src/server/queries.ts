@@ -10,7 +10,7 @@ export function getTrackerData(): TrackerData {
   const d = db();
   const cvs = d
     .prepare("SELECT id, name, notes, file_name, file_type, created_at FROM cvs ORDER BY id")
-    .all() as unknown as Cv[];
+    .all() as unknown as Omit<Cv, "file_url">[];
   const applications = d
     .prepare("SELECT * FROM applications ORDER BY applied_at DESC, id DESC")
     .all() as unknown as Application[];
@@ -21,7 +21,7 @@ export function getTrackerData(): TrackerData {
   // Spread into plain objects: node:sqlite rows have a null prototype,
   // which React can't pass to Client Components.
   return {
-    cvs: cvs.map((r) => ({ ...r })),
+    cvs: cvs.map((r) => ({ ...r, file_url: r.file_name ? `/api/cv/${r.id}` : null })),
     applications: applications.map((r) => ({ ...r })),
     events: events.map((r) => ({ ...r })),
     today,

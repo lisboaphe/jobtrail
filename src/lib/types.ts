@@ -12,6 +12,8 @@ export type Cv = {
   notes: string;
   file_name: string | null;
   file_type: string | null;
+  /** Link to open the uploaded file, or null if no file was uploaded. */
+  file_url: string | null;
   created_at: string;
 };
 

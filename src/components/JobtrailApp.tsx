@@ -9,7 +9,7 @@
 import { useMemo, useOptimistic, useState, startTransition } from "react";
 import type { Application, Status, TrackerData } from "@/lib/types";
 import { needsFollowUp } from "@/lib/calculations";
-import { markFollowedUp, moveApplication } from "@/server/actions";
+import { useActions } from "./actions-context";
 import Board from "./board/Board";
 import ApplicationPanel from "./application/ApplicationPanel";
 import CvLibrary from "./cv-library/CvLibrary";
@@ -33,6 +33,7 @@ const HEADINGS: Record<Tab, { kicker: string; title: string }> = {
 
 export default function JobtrailApp({ data }: { data: TrackerData }) {
   const { cvs, events, today } = data;
+  const { markFollowedUp, moveApplication } = useActions();
   const [tab, setTab] = useState<Tab>("board");
   const [dialog, setDialog] = useState<DialogState>(null);
   const [query, setQuery] = useState("");

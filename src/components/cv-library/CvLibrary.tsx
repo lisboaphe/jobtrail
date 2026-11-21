@@ -10,7 +10,7 @@ import { useState, useTransition } from "react";
 import type { Application, Cv, TimelineEvent } from "@/lib/types";
 import { STATUSES, STATUS_META } from "@/lib/statuses";
 import { pct, statsFor } from "@/lib/calculations";
-import { deleteCv, saveCv } from "@/server/actions";
+import { useActions } from "../actions-context";
 
 type Props = {
   cvs: Cv[];
@@ -92,8 +92,8 @@ function CvCard({
         </div>
         {cv && (
           <div className="flex gap-2">
-            {cv.file_name && (
-              <a className="btn btn-ghost" href={`/api/cv/${cv.id}`} target="_blank" rel="noopener">
+            {cv.file_url && (
+              <a className="btn btn-ghost" href={cv.file_url} target="_blank" rel="noopener">
                 Open file
               </a>
             )}
@@ -147,6 +147,7 @@ function Metric({ label, value }: { label: string; value: string }) {
 }
 
 function CvForm({ cv, onDone }: { cv?: Cv; onDone: () => void }) {
+  const { saveCv, deleteCv } = useActions();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 

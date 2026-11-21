@@ -8,7 +8,7 @@
 import { useEffect, useState, useTransition } from "react";
 import type { Application, Cv, TimelineEvent } from "@/lib/types";
 import { STATUSES, STATUS_META } from "@/lib/statuses";
-import { addNote, deleteApplication, saveApplication } from "@/server/actions";
+import { useActions } from "../actions-context";
 
 type Props = {
   application?: Application;
@@ -19,6 +19,7 @@ type Props = {
 };
 
 export default function ApplicationPanel({ application: a, cvs, events, today, onClose }: Props) {
+  const { addNote, deleteApplication, saveApplication } = useActions();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [note, setNote] = useState("");

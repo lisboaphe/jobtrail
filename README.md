@@ -9,6 +9,10 @@ Jobtrail keeps track of your job applications: where you sent each CV and what h
 - **Insights:** reply rate, interview rate, applications per week, and which CV works best.
 - **Light and dark mode.**
 
+**Try the demo:** <https://lisboaphe.github.io/jobtrail/>
+
+The demo runs entirely in your browser with sample data. Anything you change is saved only on your own device, and **Reset demo** brings the sample data back.
+
 ## Running it
 
 You need [Node.js](https://nodejs.org) version 24 or newer.
@@ -28,12 +32,14 @@ Your data is saved in the `data/` folder on your computer. It is not uploaded an
 src/
 ├── app/                      Pages and web addresses
 │   ├── page.tsx              The home page: loads your data and shows the app
+│   ├── page.demo.tsx         The home page of the online demo
 │   ├── layout.tsx            The frame around every page (fonts, title, dark mode)
 │   ├── globals.css           Colors, fonts, buttons and inputs
 │   └── api/cv/[id]/route.ts  Lets you open an uploaded CV file
 │
 ├── components/               What you see on screen
 │   ├── JobtrailApp.tsx       The main screen: navigation, heading, reminders
+│   ├── actions-context.tsx   The list of save functions the screens use
 │   ├── board/                The five colored columns
 │   ├── cv-library/           Your CVs and their colored folders
 │   ├── insights/             Charts and numbers
@@ -45,6 +51,10 @@ src/
 │   ├── queries.ts            Reads data
 │   └── actions.ts            Saves data (add, edit, move, delete, upload)
 │
+├── demo/                     The online demo (GitHub Pages)
+│   ├── DemoApp.tsx           The demo page with its "this is a demo" bar
+│   └── demo-store.ts         Sample data, saved in the visitor's browser
+│
 └── lib/                      Shared definitions and helpers
     ├── statuses.ts           The five stages and their colors
     ├── types.ts              What a CV / application / event looks like
@@ -54,6 +64,16 @@ data/                         Your database and uploaded CVs (created automatica
 ```
 
 Every file starts with a short comment explaining what it does.
+
+### The online demo
+
+GitHub Pages can only host plain files and can't run a server or a database. So the demo is a separate build of the same screens. They save to the visitor's browser (`src/demo/demo-store.ts`) instead of to the server.
+
+```bash
+npm run build:demo   # builds the demo into out/
+```
+
+Every push to `main` rebuilds the demo and publishes it automatically (`.github/workflows/pages.yml`).
 
 ## How it works
 
